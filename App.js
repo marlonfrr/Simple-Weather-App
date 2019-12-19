@@ -1,20 +1,24 @@
-import React from 'react';
+import React from "react";
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
-} from 'react-native';
+  AppRegistry,
+} from "react-native";
 
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import {createAppContainer} from "react-navigation";
+import {createStackNavigator} from "react-navigation-stack";
+import {Provider} from "react-redux";
+import {createStore} from "redux";
+import reducer from "./src/store/reducers/reducer";
+import HomeScreen from "./src/screens/HomeScreen";
+//import NavigationService from './navigation/NavigationService';
+import DetailsScreen from "./src/screens/DetailsScreen";
+import ModalScreen from "./src/screens/ModalScreen";
 
-// import NavigationService from './navigation/NavigationService';
-import HomeScreen from './src/screens/HomeScreen';
-import DetailsScreen from './src/screens/DetailsScreen';
-import ModalScreen from './src/screens/ModalScreen';
+const store = createStore(reducer);
 
 const MainStack = createStackNavigator(
   {
@@ -26,14 +30,14 @@ const MainStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: "Home",
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#f4511e',
+        backgroundColor: "#f4511e",
       },
-      headerTintColor: '#fff',
+      headerTintColor: "#fff",
       headerTitleStyle: {
-        fontWeight: 'bold',
+        fontWeight: "bold",
       },
     },
   },
@@ -49,21 +53,23 @@ const RootStack = createStackNavigator(
     },
   },
   {
-    mode: 'modal',
-    headerMode: 'none',
+    mode: "modal",
+    headerMode: "none",
   },
 );
 
 const AppContainer = createAppContainer(RootStack);
 
-export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>
+);
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: 'white',
-  },
-});
+// const styles = StyleSheet.create({
+//   scrollView: {
+//     backgroundColor: 'white',
+//   },
+// });
+
+AppRegistry.registerComponent("simpleWeatherApp", () => App);

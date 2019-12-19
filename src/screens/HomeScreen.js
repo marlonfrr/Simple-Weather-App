@@ -1,8 +1,10 @@
-import React from 'react';
-import {Button, Platform, Image, View, Text} from 'react-native';
-import LogoTitle from '../components/LogoTitle';
+import React from "react";
+import {Button, Platform, Image, View, Text} from "react-native";
+import LogoTitle from "../components/LogoTitle";
+import {connect} from "react-redux";
+import {counterIncrement, counterDecrement} from "../store/actions";
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = ({navigation}) => {
     const params = navigation.state.params || {};
 
@@ -10,49 +12,56 @@ export default class HomeScreen extends React.Component {
       headerTitle: () => <LogoTitle />,
       headerLeft: () => (
         <Button
-          onPress={() => navigation.navigate('MyModal')}
+          onPress={() => navigation.navigate("MyModal")}
           title="Info"
-          color={Platform.OS === 'ios' ? '#fff' : null}
+          color={Platform.OS === "ios" ? "#fff" : null}
         />
       ),
       headerRight: () => (
         <Button
-          onPress={params.increaseCount}
+          onPress={navigation.getParam("increaseCount")}
           title="+1"
-          color={Platform.OS === 'ios' ? '#fff' : null}
+          color={Platform.OS === "ios" ? "#fff" : null}
         />
       ),
     };
   };
 
   UNSAFE_componentWillMount() {
-    this.props.navigation.setParams({increaseCount: this._increaseCount});
+    this.props.navigation.setParams({
+      increaseCount: this.props.counterIncrement,
+    });
   }
-
-  state = {
-    count: 0,
-  };
-
-  _increaseCount = () => {
-    this.setState({count: this.state.count + 1});
-  };
 
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
         <Text>Home Screen</Text>
-        <Text>Count: {this.state.count}</Text>
+        <Text>Count: {this.props.count}</Text>
         <Button
           title="Go to Details"
           onPress={() => {
+            // console.warn(this.props);
             /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate('Details', {
+            this.props.navigation.navigate("Details", {
               itemId: 86,
-              otherParam: 'First Details',
+              otherParam: "First Details",
             });
           }}
         />
+        <Button title="Sumar" onPress={this.props.counterIncrement} />
+        <Button title="Restar" onPress={this.props.counterDecrement} />
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    count: state,
+  };
+}
+
+export default connect(mapStateToProps, {counterIncrement, counterDecrement})(
+  HomeScreen,
+);
