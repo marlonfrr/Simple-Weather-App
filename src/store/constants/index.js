@@ -1,4 +1,5 @@
 // Redux constants
 
-export const INCREMENT = "INCREMENT";
-export const DECREMENT = "DECREMENT";
+export const FETCH_WEATHER = "FETCH_WEATHER";
+export const FETCH_WEATHER_SUCCESS = "FETCH_WEATHER_SUCCESS";
+export const FETCH_WEATHER_FAILED = "FETCH_WEATHER_FAILED";

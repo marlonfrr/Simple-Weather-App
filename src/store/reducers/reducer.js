@@ -1,5 +1,5 @@
-import {INCREMENT} from "../constants";
-import {DECREMENT} from "../constants";
+import { FETCH_WEATHER, FETCH_WEATHER_SUCCESS, FETCH_WEATHER_FAILED } from "../constants"; //prettier-ignore
+import {INITIAL_STATE} from "./initialState";
 
 export default reducer = (state = 0, action) => {
   switch (action.type) {

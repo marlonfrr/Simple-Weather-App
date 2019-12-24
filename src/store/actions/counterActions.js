@@ -1,13 +1,27 @@
-import {INCREMENT} from "../constants";
-import {DECREMENT} from "../constants";
+import {
+  FETCH_WEATHER,
+  FETCH_WEATHER_SUCCESS,
+  FETCH_WEATHER_FAILED,
+} from "../constants";
 
-export const counterIncrement = () => {
+export const fetchWeatherAction = location => {
   return {
-    type: INCREMENT,
+    type: FETCH_WEATHER,
+    location,
   };
 };
-export const counterDecrement = () => {
+
+// Action dispatched by redux-sagas
+export const fetchWeatherSuccessAction = recievedWeather => {
   return {
-    type: DECREMENT,
+    type: FETCH_WEATHER_SUCCESS,
+    recievedWeather,
+  };
+};
+// Action dispatched by redux-sagas
+export const fetchWeatherAction = error => {
+  return {
+    type: FETCH_WEATHER_FAILED,
+    error,
   };
 };

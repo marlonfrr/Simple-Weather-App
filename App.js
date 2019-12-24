@@ -12,13 +12,13 @@ import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
-import reducer from "./src/store/reducers/reducer";
+import reducers from "./src/store/reducers";
 import HomeScreen from "./src/screens/HomeScreen";
 //import NavigationService from './navigation/NavigationService';
 import DetailsScreen from "./src/screens/DetailsScreen";
 import ModalScreen from "./src/screens/ModalScreen";
 
-const store = createStore(reducer);
+const store = createStore(reducers);
 
 const MainStack = createStackNavigator(
   {

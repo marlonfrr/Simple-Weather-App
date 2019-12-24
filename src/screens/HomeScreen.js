@@ -1,56 +1,118 @@
 import React from "react";
-import {Button, Platform, Image, View, Text} from "react-native";
+import {
+  Button,
+  Platform,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import LogoTitle from "../components/LogoTitle";
 import {connect} from "react-redux";
 import {counterIncrement, counterDecrement} from "../store/actions";
+import {TextInput} from "react-native-gesture-handler";
+import {LocationInput} from "../components/LocationInput";
 
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    // this.updateLocationn = this.updateLocationn.bind(this);
+    this.state = {
+      country: "",
+      city: "",
+    };
+  }
   static navigationOptions = ({navigation}) => {
     const params = navigation.state.params || {};
 
     return {
-      headerTitle: () => <LogoTitle />,
-      headerLeft: () => (
-        <Button
-          onPress={() => navigation.navigate("MyModal")}
-          title="Info"
-          color={Platform.OS === "ios" ? "#fff" : null}
-        />
-      ),
-      headerRight: () => (
-        <Button
-          onPress={navigation.getParam("increaseCount")}
-          title="+1"
-          color={Platform.OS === "ios" ? "#fff" : null}
-        />
-      ),
+      headerTitle: "Select location",
+      // headerLeft: () => (
+      //   <Button
+      //     onPress={() => navigation.navigate("MyModal")}
+      //     title="Info"
+      //     color={Platform.OS === "ios" ? "#fff" : null}
+      //   />
+      // ),
+      // headerRight: () => (
+      //   <Button
+      //     onPress={navigation.getParam("increaseCount")}
+      //     title="+1"
+      //     color={Platform.OS === "ios" ? "#fff" : null}
+      //   />
+      // ),
     };
   };
 
-  UNSAFE_componentWillMount() {
-    this.props.navigation.setParams({
-      increaseCount: this.props.counterIncrement,
-    });
-  }
+  // UNSAFE_componentWillMount() {
+  //   this.props.navigation.setParams({
+  //     increaseCount: this.props.counterIncrement,
+  //   });
+  // }
+
+  // updateLocationn(location) {
+  //   this.setState({country: location});
+  // }
 
   render() {
+    var {country, city} = this.state;
     return (
-      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-        <Text>Home Screen</Text>
-        <Text>Count: {this.props.count}</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => {
-            // console.warn(this.props);
-            /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate("Details", {
-              itemId: 86,
-              otherParam: "First Details",
-            });
-          }}
+      <View style={{flex: 1, alignItems: "center"}}>
+        {/* These both inputs may be a separate form component later */}
+
+        {/* <Text style={{alignSelf: "flex-start"}}>Introduce el país</Text> */}
+        <LocationInput
+          updateLocation={location => this.setState({country: location})}
+          value={country}
+          placeholder={"Country"}
         />
-        <Button title="Sumar" onPress={this.props.counterIncrement} />
-        <Button title="Restar" onPress={this.props.counterDecrement} />
+
+        <LocationInput
+          updateLocation={location => this.setState({city: location})}
+          value={city}
+          placeholder={"City"}
+        />
+        <View style={styles.underButtons}>
+          <View
+            style={{
+              shadowColor: "black", //ios
+              shadowOffset: {
+                width: 1,
+                height: 2,
+              },
+              shadowRadius: 2, //ios
+              shadowOpacity: 0.6, //ios
+              elevation: 5, //android
+            }}>
+            <View
+              // useAngle={true}
+              // angle={90}
+              style={{
+                ...styles.simpleCenteredRow,
+                borderRadius: 25,
+                paddingVertical: 10,
+                paddingHorizontal: 20,
+                justifyContent: "center",
+                alignSelf: "center",
+                backgroundColor: "#f4511e",
+              }}
+              // colors={["#501980", "#501980", "#210D4E"]}
+            >
+              <TouchableOpacity
+                hitSlop={{top: 10, bottom: 10, right: 20, left: 20}}
+                onPress={() => null}>
+                <Text
+                  style={{
+                    // fontFamily: "Montserrat-Regular",
+                    color: "#eeeeee",
+                    fontSize: 16,
+                  }}>
+                  {"Continuar"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
@@ -58,9 +120,23 @@ class HomeScreen extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    count: state,
+    count: state.counter,
+    hello: state.hello,
   };
 }
+
+const styles = StyleSheet.create({
+  underButtons: {
+    // alignSelf: "center",
+    // position: "absolute",
+    marginBottom: Platform.OS === "android" ? 10 : 20,
+    // bottom: 0,
+  },
+  simpleCenteredRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});
 
 export default connect(mapStateToProps, {counterIncrement, counterDecrement})(
   HomeScreen,
