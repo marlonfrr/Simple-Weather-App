@@ -19,7 +19,7 @@ export const fetchWeatherSuccessAction = recievedWeather => {
   };
 };
 // Action dispatched by redux-sagas
-export const fetchWeatherAction = error => {
+export const fetchWeatherFailedAction = error => {
   return {
     type: FETCH_WEATHER_FAILED,
     error,

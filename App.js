@@ -10,15 +10,23 @@ import {
 
 import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
+
+// Store creating
 import {Provider} from "react-redux";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./src/sagas/rootSaga";
+// Reducers
 import reducers from "./src/store/reducers";
+// Containers
 import HomeScreen from "./src/screens/HomeScreen";
-//import NavigationService from './navigation/NavigationService';
+// import NavigationService from './navigation/NavigationService';
 import DetailsScreen from "./src/screens/DetailsScreen";
 import ModalScreen from "./src/screens/ModalScreen";
 
-const store = createStore(reducers);
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 
 const MainStack = createStackNavigator(
   {
@@ -72,4 +80,5 @@ const App = () => (
 //   },
 // });
 
+sagaMiddleware.run(rootSaga);
 AppRegistry.registerComponent("simpleWeatherApp", () => App);

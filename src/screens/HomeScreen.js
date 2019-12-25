@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import LogoTitle from "../components/LogoTitle";
 import {connect} from "react-redux";
-import {counterIncrement, counterDecrement} from "../store/actions";
 import {TextInput} from "react-native-gesture-handler";
 import {LocationInput} from "../components/LocationInput";
+
+//Actions
+import {fetchWeatherAction} from "../store/actions";
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -50,9 +52,9 @@ class HomeScreen extends React.Component {
   //   });
   // }
 
-  // updateLocationn(location) {
-  //   this.setState({country: location});
-  // }
+  handleSearchLocation() {
+    this.props.fetchWeather();
+  }
 
   render() {
     var {country, city} = this.state;
@@ -100,7 +102,7 @@ class HomeScreen extends React.Component {
             >
               <TouchableOpacity
                 hitSlop={{top: 10, bottom: 10, right: 20, left: 20}}
-                onPress={() => null}>
+                onPress={() => this.handleSearchLocation()}>
                 <Text
                   style={{
                     // fontFamily: "Montserrat-Regular",
@@ -125,6 +127,14 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchWeather: () => {
+      dispatch(fetchWeatherAction());
+    },
+  };
+}
+
 const styles = StyleSheet.create({
   underButtons: {
     // alignSelf: "center",
@@ -138,6 +148,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, {counterIncrement, counterDecrement})(
-  HomeScreen,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
