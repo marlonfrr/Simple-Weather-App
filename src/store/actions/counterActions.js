@@ -4,10 +4,12 @@ import {
   FETCH_WEATHER_FAILED,
 } from "../constants";
 
-export const fetchWeatherAction = location => {
+export const fetchWeatherAction = () => {
   return {
     type: FETCH_WEATHER,
-    location,
+    // location: {country, city},
+    // country,
+    // city,
   };
 };
 

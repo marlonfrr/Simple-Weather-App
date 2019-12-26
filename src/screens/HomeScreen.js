@@ -115,6 +115,7 @@ class HomeScreen extends React.Component {
             </View>
           </View>
         </View>
+        <Text>{JSON.stringify(this.props.weather)}</Text>
       </View>
     );
   }
@@ -122,8 +123,8 @@ class HomeScreen extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    count: state.counter,
-    hello: state.hello,
+    weather: state.weather,
+    // hello: state.hello,
   };
 }
 
