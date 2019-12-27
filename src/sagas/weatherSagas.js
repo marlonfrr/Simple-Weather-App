@@ -3,10 +3,11 @@ import { FETCH_WEATHER, FETCH_WEATHER_SUCCESS, FETCH_WEATHER_FAILED } from "../s
 import {put, takeLatest} from "redux-saga/effects";
 import {Api} from "./Api";
 
-function* fetchWeather() {
+function* fetchWeather(param) {
+  console.warn("Params: ", param);
   try {
     console.warn("1");
-    const receivedWeather = yield Api.getWeatherFromApi();
+    const receivedWeather = yield Api.getWeatherFromApi(param.location);
     yield put({type: FETCH_WEATHER_SUCCESS, receivedWeather: receivedWeather});
   } catch (error) {
     console.warn("2");

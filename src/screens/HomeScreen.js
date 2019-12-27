@@ -20,8 +20,8 @@ class HomeScreen extends React.Component {
     super(props);
     // this.updateLocationn = this.updateLocationn.bind(this);
     this.state = {
-      country: "",
-      city: "",
+      country: "Uk",
+      city: "London",
     };
   }
   static navigationOptions = ({navigation}) => {
@@ -53,7 +53,8 @@ class HomeScreen extends React.Component {
   // }
 
   handleSearchLocation() {
-    this.props.fetchWeather();
+    this.props.fetchWeather(this.state.city, this.state.country);
+    this.props.navigation.navigate("Details");
   }
 
   render() {
@@ -115,7 +116,7 @@ class HomeScreen extends React.Component {
             </View>
           </View>
         </View>
-        <Text>{JSON.stringify(this.props.weather)}</Text>
+        {/* <Text>{JSON.stringify(this.props.weather)}</Text> */}
       </View>
     );
   }
@@ -130,8 +131,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchWeather: () => {
-      dispatch(fetchWeatherAction());
+    fetchWeather: (city, country) => {
+      dispatch(fetchWeatherAction(city, country));
     },
   };
 }

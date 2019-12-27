@@ -1,12 +1,13 @@
-import React from 'react';
-import {Button, Platform, Image, View, Text} from 'react-native';
+import React from "react";
+import {Button, Platform, Image, View, Text} from "react-native";
+import {connect} from "react-redux";
 
-export default class DetailsScreen extends React.Component {
+class DetailsScreen extends React.Component {
   static navigationOptions = ({navigation, navigationOptions}) => {
     const {params} = navigation.state;
 
     return {
-      title: params ? params.otherParam : 'A Nested Details Screen',
+      title: params ? params.otherParam : "A Nested Details Screen",
       /* These values are used instead of the shared configuration! */
       headerStyle: {
         backgroundColor: navigationOptions.headerTintColor,
@@ -19,30 +20,24 @@ export default class DetailsScreen extends React.Component {
     console.warn(this.props);
 
     /* 2. Read the params from the navigation state */
-    const {params} = this.props.navigation.state;
-    const itemId = params ? params.itemId : null;
-    const otherParam = params ? params.otherParam : null;
+    // const {params} = this.props.navigation.state;
+    // const itemId = params ? params.itemId : null;
+    // const otherParam = params ? params.otherParam : null;
 
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
         <Text>Details Screen</Text>
-        <Text>itemId: {JSON.stringify(itemId)}</Text>
-        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-        <Button
-          title="Update the title"
-          onPress={() =>
-            this.props.navigation.setParams({otherParam: 'Updated!'})
-          }
-        />
-        <Button
-          title="Go to Details... again"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
-        <Button
-          title="Go back"
-          onPress={() => this.props.navigation.goBack()}
-        />
+        <Text>{JSON.stringify(this.props.weather)}</Text>
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    weather: state.weather,
+    // hello: state.hello,
+  };
+}
+
+export default connect(mapStateToProps, {})(DetailsScreen);
